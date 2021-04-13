@@ -1,26 +1,21 @@
 # js-framework-watcher
 
-## Project setup
-```
-yarn install
-```
+<p style="font-size: 18px">
+This App is being devleoped as part of the Actualize's TIP program - April 2021
+</p>
+<br/>
+<h5>Project Developers</h5>
+<p style="font-size: 18px">
+Michael Gallipo
+Jeanna Wong
+</p>
+<br />
+<p style="font-size: 16px"> 
+A running Demo of the app can be found at xxxxx
+</p>
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## Project Was Created Using Yarn
 
-### Compiles and minifies for production
 ```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
+all normal yarn commands (install, run serve, etc) apply
 ```
