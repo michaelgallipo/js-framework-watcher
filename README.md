@@ -8,6 +8,7 @@ This App is being devleoped as part of the Actualize's TIP program - April 2021
 <p style="font-size: 18px">
 Michael Gallipo
 Jeanna Wong
+Charlotte Moche
 </p>
 <br />
 <p style="font-size: 16px"> 
