@@ -26,6 +26,9 @@ export default {
       emberData: {},
       svelteData: {},
       reactData: {},
+      forks: [100, 200, 100, 200, 100],
+      stars: [200, 100, 400, 100, 200],
+      subscribers: [100, 300, 500, 300, 100],
       myData: {
         layout: "horizontal",
         graphset: [
@@ -46,7 +49,7 @@ export default {
             },
             series: [
               {
-                values: [1, 2, 6, 5, 4],
+                values: this.forks,
               },
             ],
           },
@@ -97,49 +100,64 @@ export default {
     };
   },
   created: function () {
-    axios.get("https://api.github.com/repos/vuejs/vue").then((response) => {
-      console.log("vuejs repo", response);
-      this.vueData.subscribers = response.data.subscribers_count;
-      this.vueData.stars = response.data.stargazers_count;
-      this.vueData.forks = response.data.forks_count;
-      console.log(this.vueData);
-    });
+    const auth = { auth: { username: "michaelgallipo" } };
     axios
-      .get("https://api.github.com/repos/angular/angular.js")
+      .get("https://api.github.com/repos/vuejs/vue", auth)
       .then((response) => {
-        console.log("angularjs repo", response);
+        console.log("vuejs repo", response);
+        this.vueData.subscribers = response.data.subscribers_count;
+        this.subscribers[0] = response.data.subscribers_count;
+        this.vueData.stars = response.data.stargazers_count;
+        this.stars[0] = response.data.stargazers_count;
+        this.vueData.forks = response.data.forks_count;
+        this.forks[0] = response.data.forks_count;
+        console.log(this.vueData);
+      });
+    axios
+      .get("https://api.github.com/repos/angular/angular.js", auth)
+      .then((response) => {
         this.angularData.subscribers = response.data.subscribers_count;
+        this.subscribers[1] = response.data.subscribers_count;
         this.angularData.stars = response.data.stargazers_count;
+        this.stars[1] = response.data.stargazers_count;
         this.angularData.forks = response.data.forks_count;
+        this.forks[1] = response.data.forks_count;
         console.log(this.angularData);
       });
     axios
-      .get("https://api.github.com/repos/emberjs/ember.js")
+      .get("https://api.github.com/repos/emberjs/ember.js", auth)
       .then((response) => {
-        console.log("emberjs repo", response);
         this.emberData.subscribers = response.data.subscribers_count;
+        this.subscribers[2] = response.data.subscribers_count;
         this.emberData.stars = response.data.stargazers_count;
+        this.stars[2] = response.data.stargazers_count;
         this.emberData.forks = response.data.forks_count;
+        this.forks[2] = response.data.forks_count;
         console.log(this.emberData);
       });
     axios
-      .get("https://api.github.com/repos/sveltejs/svelte")
+      .get("https://api.github.com/repos/sveltejs/svelte", auth)
       .then((response) => {
-        console.log("svelte repo", response);
         this.svelteData.subscribers = response.data.subscribers_count;
+        this.subscribers[3] = response.data.subscribers_count;
         this.svelteData.stars = response.data.stargazers_count;
+        this.stars[3] = response.data.stargazers_count;
         this.svelteData.forks = response.data.forks_count;
+        this.forks[3] = response.data.forks_count;
         console.log(this.svelteData);
       });
     axios
-      .get("https://api.github.com/repos/facebook/react")
+      .get("https://api.github.com/repos/facebook/react", auth)
       .then((response) => {
-        console.log("react repo", response);
         this.reactData.subscribers = response.data.subscribers_count;
+        this.subscribers[4] = response.data.subscribers_count;
         this.reactData.stars = response.data.stargazers_count;
+        this.stars[4] = response.data.stargazers_count;
         this.reactData.forks = response.data.forks_count;
+        this.forks[4] = response.data.forks_count;
         console.log(this.reactData);
       });
+    // console.log(this.forks, this.stars, this.subscribers);
   },
 };
 </script>
