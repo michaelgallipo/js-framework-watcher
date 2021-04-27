@@ -1,12 +1,18 @@
 <template>
   <div class="home">
-    <h1>Javascript Framework Watcher</h1>
-    <img
-      alt="Javascript Logo"
-      src="../assets/javascript_logo_icon.png"
-      style="height: 128px"
-    />
-    <zingchart :data="chartConfig"></zingchart>
+    <div id="logo">
+      <h1>Javascript Framework Watcher</h1>
+      <img
+        alt="Javascript Logo"
+        src="../assets/javascript_logo_icon.png"
+        style="height: 128px"
+      />
+    </div>
+    <div id="charts">
+      <zingchart id="forks" :data="chartConfig"></zingchart>
+      <zingchart id="stars" :data="chartConfig2"></zingchart>
+      <zingchart id="watchers" :data="chartConfig3"></zingchart>
+    </div>
   </div>
 </template>
 
@@ -38,96 +44,74 @@ export default {
     chartConfig() {
       return {
         layout: "horizontal",
+        type: "bar",
+        id: "forks",
+        title: {
+          text: "Forks",
+        },
+        width: "100%",
+        scaleX: {
+          // set scale label
+          label: {
+            text: "Frameworks",
 
-        graphset: [
-          {
-            type: "bar",
-
-            title: {
-              text: "Forks",
-            },
-
-            // width: "50%",
-
-            scaleX: {
-              // set scale label
-
-              label: {
-                text: "Frameworks",
-
-                fontSize: 16,
-              },
-
-              // convert text on scale indices
-
-              labels: this.labels,
-            },
-
-            series: [
-              {
-                values: this.forks,
-              },
-            ],
+            fontSize: 16,
           },
+          // convert text on scale indices
 
+          labels: this.labels,
+        },
+        series: [
           {
-            type: "bar",
-
-            title: {
-              text: "Stars",
-            },
-
-            // width: "50%",
-
-            scaleX: {
-              // set scale label
-
-              label: {
-                text: "Frameworks",
-
-                fontSize: 16,
-              },
-
-              // convert text on scale indices
-
-              labels: this.labels,
-            },
-
-            series: [
-              {
-                values: this.stars,
-              },
-            ],
+            values: this.forks,
           },
-
+        ],
+      };
+    },
+    chartConfig2() {
+      return {
+        type: "bar",
+        id: "stars",
+        title: {
+          text: "Stars",
+        },
+        width: "100%",
+        scaleX: {
+          // set scale label
+          label: {
+            text: "Frameworks",
+            fontSize: 16,
+          },
+          // convert text on scale indices
+          labels: this.labels,
+        },
+        series: [
           {
-            type: "bar",
-
-            title: {
-              text: "Watchers",
-            },
-
-            // width: "50%",
-
-            scaleX: {
-              // set scale label
-
-              label: {
-                text: "Frameworks",
-
-                fontSize: 16,
-              },
-
-              // convert text on scale indices
-
-              labels: this.labels,
-            },
-
-            series: [
-              {
-                values: this.subscribers,
-              },
-            ],
+            values: this.stars,
+          },
+        ],
+      };
+    },
+    chartConfig3() {
+      return {
+        type: "bar",
+        id: "watchers",
+        title: {
+          text: "Watchers",
+        },
+        width: "100%",
+        scaleX: {
+          // set scale label
+          label: {
+            text: "Frameworks",
+            fontSize: 16,
+          },
+          // convert text on scale indices
+          labels: this.labels,
+        },
+        series: [
+          {
+            values: this.subscribers,
           },
         ],
       };
@@ -140,12 +124,10 @@ export default {
       .then((response) => {
         console.log("vuejs repo", response);
         this.vueData.subscribers = response.data.subscribers_count;
-        this.subscribers[0] = response.data.subscribers_count;
         this.vueData.stars = response.data.stargazers_count;
-        this.stars[0] = response.data.stargazers_count;
         this.vueData.forks = response.data.forks_count;
-        this.forks[0] = response.data.forks_count;
         console.log(this.vueData);
+        this.updateVue(this.vueData);
       });
     axios
       .get("https://api.github.com/repos/angular/angular.js", {}, auth)
@@ -190,18 +172,38 @@ export default {
         this.reactData.forks = response.data.forks_count;
         this.forks[4] = response.data.forks_count;
         console.log(this.reactData);
+        // this.chartRerender();
       });
-    // this.updateVue();
-    // console.log(this.forks, this.stars, this.subscribers);
+    setTimeout(this.chartRerender, 2500);
   },
-  // methods: {
-  //   updateVue: function () {
-  //     console.log("function fired");
-  //     this.stars[0] = vueData.stars;
-  //     this.subscribers[0] = vueData.subscribers;
-  //     this.forks[0] = vueData.forks;
-  //     console.log(this.stars);
-  //   },
-  // },
+  methods: {
+    updateVue: function (vueData) {
+      this.stars[0] = vueData.stars;
+      this.subscribers[0] = vueData.subscribers;
+      this.forks[0] = vueData.forks;
+    },
+    chartRerender: function () {
+      console.log(this.stars, this.forks, this.subscribers);
+      zingchart.exec("stars", "setseriesvalues", {
+        values: [this.stars],
+      });
+      zingchart.exec("forks", "setseriesvalues", {
+        values: [this.forks],
+      });
+      zingchart.exec("watchers", "setseriesvalues", {
+        values: [this.subscribers],
+      });
+    },
+  },
 };
 </script>
+
+<style scoped>
+#charts {
+  display: flex;
+}
+
+#logo {
+  margin-bottom: 40px;
+}
+</style>
