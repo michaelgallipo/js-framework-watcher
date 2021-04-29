@@ -113,7 +113,7 @@ export default {
       };
     },
   },
-  created: function () {
+  created: function() {
     const auth = { auth: { username: "michaelgallipo" } };
     axios
       .get("https://api.github.com/repos/vuejs/vue", {}, auth)
@@ -172,6 +172,7 @@ export default {
         values: [this.subscribers],
       });
     },
+
   },
 };
 </script>
